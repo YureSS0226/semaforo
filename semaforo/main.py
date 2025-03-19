@@ -90,6 +90,6 @@ while True:
     else:
         mem32[GPIO] = 0B00000000000000000000000000000000
         datoTemp = temp.read()
-        valorTemp = (datoTemp * (5/1023))/0.1
+        valorTemp = (datoTemp * (5/1023))/0.1 - 4
         print(valorTemp)
         sleep(1)
