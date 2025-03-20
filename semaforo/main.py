@@ -31,11 +31,11 @@ t3 = 4
 def cambiarModoSemaforo(pin):
     global estado
     if estado == 0:
-        print("Esperando modo 2 semaforo...")
+        print("Esperando modo espera semaforo...")
         estado = 1
-    else:
-        print("Modo 1 semaforo")
-        estado = 0
+#    else:
+#        print("Modo 1 semaforo")
+#        estado = 0
         
 btnSw.irq(handler=cambiarModoSemaforo, trigger=Pin.IRQ_RISING)
 
@@ -80,13 +80,26 @@ while True:
                 mem32[GPIO] = 0B00000000010010001101000000000000
                 sleep(0.5)
             mem32[GPIO] = 0B00000010010010000100000000000100
-            for i in range(3):
-                mem32[GPIO] = 0B00000010000010000100000000000100
-                sleep(0.5)
+            if estado == 0:
+                for i in range(3):
+                    mem32[GPIO] = 0B00000010000010000100000000000100
+                    sleep(0.5)
+                    mem32[GPIO] = 0B00000010010010000100000000000100
+                    sleep(0.5)
+            else:
                 mem32[GPIO] = 0B00000010010010000100000000000100
-                sleep(0.5)
+                sleep(3)
         elif estado == 1:
+            print("Modo espera")
             mem32[GPIO] = 0B00001100010010000000000000010000
+            sleep(t2)
+            for i in range(3):
+                mem32[GPIO] = 0B00000100000010000000000000010000
+                sleep(0.5)
+                mem32[GPIO] = 0B00001100010010000000000000010000
+                sleep(0.5)
+            estado = 0
+            print("Modo semaforo")
     else:
         mem32[GPIO] = 0B00000000000000000000000000000000
         datoTemp = temp.read()
