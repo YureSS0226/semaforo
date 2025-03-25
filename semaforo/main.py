@@ -3,8 +3,8 @@ from time import sleep
 
 # salidas digitales
 GPIO = const(0x3FF44004)
-vectorPines = [4, 2, 15, 19, 18, 5, 26, 25, 12, 23, 22, 14, 27, 16, 17, 21, 3, 1]
-for i in range(0, 18):
+vectorPines = [4, 2, 15, 19, 18, 5, 26, 25, 12, 23, 22, 14, 27, 16, 17, 21]
+for i in range(0, 16):
     Pin(vectorPines[i], Pin.OUT)
 
 # entradas digitales
@@ -96,7 +96,6 @@ while True:
     else:
         mem32[GPIO] = 0B00000000000000000000000000000000
         datoTemp = temp.read()
-        valorTemp = (datoTemp * (5/1023))/0.1
+        valorTemp = ((datoTemp * 5 /1024.0) - 0.4) / 0.0195
         print(valorTemp)
         sleep(1)
-        
